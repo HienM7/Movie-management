@@ -58,7 +58,7 @@ export default function SearchAppBar() {
       <NavBar />
       <Container className={classes.container}>
         <div>
-          <Link to={`/create`} className={classes.link}>
+          <Link to={`/movie/create`} className={classes.link}>
             <Button variant="contained" className={classes.buttonCreate} color="primary">
               Create Movie
             </Button>
