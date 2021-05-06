@@ -1,24 +1,64 @@
-import logo from './logo.svg';
 import './App.css';
+import SignIn from './components/SignIn';
+import ListMovie from './components/ListMovies';
+import MovieScheduler from './components/MovieScheduler';
+import CreateMovie from './screens/CreateMovie';
+import { useState, useEffect} from 'react';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
 
 function App() {
+
+  // const [token, setToken] = useState('');
+  
+
+  // useEffect(()=>{
+  //   if(localStorage && localStorage.getItem('token'))
+  //     setToken(localStorage.getItem('token')));
+  // },[token]);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        {/* <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/users">Users</Link>
+            </li>
+          </ul>
+        </nav> */}
+
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/create">
+            <CreateMovie />
+          </Route>
+          <Route path="/movie">
+            <MovieScheduler />
+          </Route>
+          <Route path="/login">
+            <SignIn />
+          </Route>
+          <Route path="/">
+            <ListMovie />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
