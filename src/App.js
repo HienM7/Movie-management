@@ -4,6 +4,7 @@ import ListMovie from './components/ListMovies';
 import MovieScheduler from './components/MovieScheduler';
 import CreateMovie from './screens/CreateMovie';
 import { useState, useEffect} from 'react';
+import  UpdateMovie  from './screens/UpdateMovie';
 
 import {
   BrowserRouter as Router,
@@ -44,16 +45,19 @@ function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/create">
+          <Route exact path="/movie/create">
             <CreateMovie />
           </Route>
-          <Route path="/movie">
+          <Route exact path="/movie">
             <MovieScheduler />
           </Route>
-          <Route path="/login">
+          <Route exact path="/login">
             <SignIn />
           </Route>
-          <Route path="/">
+          <Route exact path="/movie/edit">
+            <UpdateMovie />
+          </Route>
+          <Route exact path="/">
             <ListMovie />
           </Route>
         </Switch>

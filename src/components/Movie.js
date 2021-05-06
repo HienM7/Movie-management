@@ -36,7 +36,7 @@ export default function Movie(props) {
   }
 
   return (
-    <Link to={`/movie/${movie.movie_id}`} className={classes.link}>
+    <Link to={`/movie/edit/?id=${movie.movie_id}`} className={classes.link}>
       <Card className={classes.root}>
         <CardActionArea>
           {
