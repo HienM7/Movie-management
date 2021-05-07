@@ -55,7 +55,6 @@ export default function SearchAppBar() {
   }
   return (
     <div className={classes.root}>
-      <NavBar />
       <Container className={classes.container}>
         <div>
           <Link to={`/movie/create`} className={classes.link}>

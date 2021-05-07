@@ -36,18 +36,22 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
+    boxSizing: 'border-box',
+    padding: '0 50px'
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
   media: {
     // height: 400,
-    width: 200,
+    width: "100%",
+
   },
   cart: {
-    width: 200,
-    height: 300,
+    width: 350,
+    // height: ,
     margin: '0 auto',
+    // maxWidth: 350
   },
   formControl: {
     // margin: theme.spacing(1),
@@ -137,7 +141,7 @@ export default function UpdateMovie() {
             movieName: response.data.data[0].movie_name,
             duration: response.data.data[0].duration,
             poster: response.data.data[0].poster,
-            releaseDate: response.data.data[0].release_date.split('/').join('-'),
+            releaseDate: response.data.data[0].release_date.split('/').reverse().join('-'),
             description: response.data.data[0].description,
             trailer: response.data.data[0].trailer
           }));
@@ -178,7 +182,7 @@ export default function UpdateMovie() {
         movie_name: state.movieName,
         duration: +state.duration,
         poster: state.poster,
-        release_date: state.releaseDate.split('-').join('/'),
+        release_date: state.releaseDate.split('-').reverse().join('/'),
         description: state.description,
         trailer: state.trailer,
         genre_ids: allGenre.filter(item => genreName.indexOf(item.genre_name) !== -1 ).map(item => item.id)
@@ -212,11 +216,12 @@ export default function UpdateMovie() {
 
   return (
     <div className={classes.root}>
-      <NavBar />
       <Container className={classes.container}>
-        <Typography variant="h3" style={{margin: 20}}>
+        <Typography variant="h3" style={{margin: 20}} align='center' >
           Update Movie
         </Typography>
+        <Grid container spacing={6} style={{marginTop: 50}}>
+          <Grid xs={12} sm={6} md={6} style={{paddingTop: 35}}>
           <Card className={classes.cart}>
             <CardActionArea>
               {
@@ -239,6 +244,8 @@ export default function UpdateMovie() {
               </CardContent> */}
             </CardActionArea>
           </Card>
+          </Grid>
+        <Grid xs={12} sm={6} md={6} style={{ margin: '0 auto' }}>
         <form className={classes.form} onSubmit={handleSubmit}>
         <TextField
             variant="outlined"
@@ -272,6 +279,7 @@ export default function UpdateMovie() {
             labelId="demo-simple-select-outlined"
             id="demo-simple-select-outlined"
             multiple
+            required
             // ref={selectRef}
             value={genreName}
             onChange={(e) => { 
@@ -382,10 +390,9 @@ export default function UpdateMovie() {
             Update
           </Button>
         </form>
-
-          
-        <Grid container spacing={6}>
         </Grid>
+        </Grid>
+
       </Container>
     </div>
   );

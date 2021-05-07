@@ -26,29 +26,11 @@ function App() {
 
 
   return (
-    <Router>
-      <div>
-        {/* <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/users">Users</Link>
-            </li>
-          </ul>
-        </nav> */}
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
         <Switch>
           <Route exact path="/movie/create">
             <CreateMovie />
           </Route>
-          <Route exact path="/movie">
+          <Route exact path="/movie/schedule">
             <MovieScheduler />
           </Route>
           <Route exact path="/login">
@@ -60,9 +42,10 @@ function App() {
           <Route exact path="/">
             <ListMovie />
           </Route>
+          <Route exact path="/movie">
+            <ListMovie />
+          </Route>
         </Switch>
-      </div>
-    </Router>
   );
 }
 

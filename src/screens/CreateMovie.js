@@ -36,18 +36,22 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
+    boxSizing: 'border-box',
+    padding: '0 50px'
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
   media: {
     // height: 400,
-    width: 200,
+    width: "100%",
   },
   cart: {
-    width: 200,
-    height: 300,
+    width: 350,
+    // height: ,
     margin: '0 auto',
+    // maxWidth: 350
+
   },
   formControl: {
     // margin: theme.spacing(1),
@@ -137,22 +141,22 @@ export default function CreateMovie(props) {
       debugger;
       console.log(allGenre);
       console.log(genreName);
-      console.log({
-        movie_name: state.movieName,
-        duration: +state.duration,
-        poster: state.poster,
-        release_date: state.releaseDate.split('-').join('/'),
-        description: state.description,
-        trailer: state.trailer,
-        genre_ids: allGenre.filter(item => genreName.indexOf(item.genre_name) !== -1 ).map(item => item.id)
-      })
+      // console.log({
+      //   movie_name: state.movieName,
+      //   duration: +state.duration,
+      //   poster: state.poster,
+      //   release_date: state.releaseDate.split('-').reverse().join('/'),
+      //   description: state.description,
+      //   trailer: state.trailer,
+      //   genre_ids: allGenre.filter(item => genreName.indexOf(item.genre_name) !== -1 ).map(item => item.id)
+      // })
       // setAlert("Verifying...please wait");
       var url="https://app-movie-genre-service.herokuapp.com/movie/new";
       axios.post(url,{
         movie_name: state.movieName,
         duration: +state.duration,
         poster: state.poster,
-        release_date: state.releaseDate.split('-').join('/'),
+        release_date: state.releaseDate.split('-').reverse().join('/'),
         description: state.description,
         trailer: state.trailer,
         genre_ids: allGenre.filter(item => genreName.indexOf(item.genre_name) !== -1 ).map(item => item.id)
@@ -185,11 +189,13 @@ export default function CreateMovie(props) {
 
   return (
     <div className={classes.root}>
-      <NavBar />
       <Container className={classes.container}>
-        <Typography variant="h3" style={{margin: 20}}>
+
+        <Typography variant="h3" style={{margin: 20}} align='center'>
           Create Movie
         </Typography>
+      <Grid container spacing={6} style={{marginTop: 50}}>
+      <Grid xs={12} sm={6} md={6} style={{paddingTop: 35}}>
           <Card className={classes.cart}>
             <CardActionArea>
               {
@@ -212,7 +218,10 @@ export default function CreateMovie(props) {
               </CardContent> */}
             </CardActionArea>
           </Card>
-        <form className={classes.form} onSubmit={handleSubmit}>
+        </Grid>
+        <Grid xs={12} sm={6} md={6} style={{ margin: '0 auto' }}>
+
+        <form className={classes.form} onSubmit={handleSubmit} >
         <TextField
             variant="outlined"
             margin="normal"
@@ -244,6 +253,8 @@ export default function CreateMovie(props) {
               labelId="demo-simple-select-outlined"
               id="demo-simple-select-outlined"
               multiple
+              required
+              
               // ref={selectRef}
               value={genreName}
               onChange={(e) => { 
@@ -353,10 +364,8 @@ export default function CreateMovie(props) {
             Create
           </Button>
         </form>
-
-          
-        <Grid container spacing={6}>
         </Grid>
+      </Grid>
       </Container>
     </div>
   );

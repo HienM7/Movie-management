@@ -49,7 +49,7 @@ export default function Movie(props) {
           <img className={classes.media} src={movie.poster} alt="Movie Poster"/>
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-              {movie.name}
+              {movie.movie_name}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
               Genre: {movie.genre_name.join(', ')}<br/>
