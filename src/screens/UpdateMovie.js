@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
 import NavBar from '../components/NavBar';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -12,6 +12,13 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Chip from '@material-ui/core/Chip';
+
 
 
 
@@ -41,16 +48,52 @@ const useStyles = makeStyles((theme) => ({
     width: 200,
     height: 300,
     margin: '0 auto',
-  }
+  },
+  formControl: {
+    // margin: theme.spacing(1),
+    width: '100%',
+    height: 50,
+    paddingBottom: 20, 
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2,
+  },
+  noLabel: {
+    marginTop: theme.spacing(3),
+  },
 }));
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function getStyles(name, personName, theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
 
 export default function UpdateMovie() {
 
   const classes = useStyles();
+  const theme = useTheme();
 
   const useQuery = () => new URLSearchParams(useLocation().search);
   let query = useQuery();
-  console.log(query.get('id'));
   // const [token, setToken] = useState('');
   const [state,setState]=useState({
     movieName: "",
@@ -60,33 +103,41 @@ export default function UpdateMovie() {
     description: "",
     trailer: ""
   });
+
+  const [allGenre, setAllGenre] = useState([]);
+  const [genreName, setGenreName] = useState([]);
+
+  useEffect(()=>{
+    axios.get(`https://app-movie-genre-service.herokuapp.com/genre`)
+    .then(response => {
+        if (response.status===200 || response.status === 201) {
+          setAllGenre(response.data.data)
+        }
+      })
+      .catch(err => console.log(err));
+  },[]);
   
-
-  // useEffect(()=>{
-  //   if(localStorage && localStorage.getItem('token'))
-  //     setToken(localStorage.getItem('token')));
-  // },[token]);
-
   const [redirect, setRedirect] = useState(false);
 
   useEffect(()=>{
     axios.get(`https://app-movie-genre-service.herokuapp.com/movie/?id=${query.get('id')}`) 
     .then(response => {
         if (response.status===200 || response.status === 201) {
-          console.log({
-            movieName: response.data.data[0].movie_name,
-            duration: response.data.data[0].duration,
-            poster: response.data.data[0].poster,
-            releaseDate: response.data.data[0].release_date,
-            description: response.data.data[0].description,
-            trailer: response.data.data[0].trailer
+          // console.log({
+          //   movieName: response.data.data[0].movie_name,
+          //   duration: response.data.data[0].duration,
+          //   poster: response.data.data[0].poster,
+          //   releaseDate: response.data.data[0].release_date,
+          //   description: response.data.data[0].description,
+          //   trailer: response.data.data[0].trailer
 
-          })
+          // })
+          setGenreName(response.data.data[0].genre_name)
           setState( prevState => ({
             movieName: response.data.data[0].movie_name,
             duration: response.data.data[0].duration,
             poster: response.data.data[0].poster,
-            releaseDate: response.data.data[0].release_date,
+            releaseDate: response.data.data[0].release_date.split('/').join('-'),
             description: response.data.data[0].description,
             trailer: response.data.data[0].trailer
           }));
@@ -111,15 +162,15 @@ export default function UpdateMovie() {
       console.log('');
     //   setAlert("Please enter your username and password!");
     else{
-      console.log({
-        id: +query.get('id'),
-        movie_name: state.movieName,
-        duration: +state.duration,
-        poster: state.poster,
-        release_date: state.releaseDate.split('-').join('/'),
-        description: state.description,
-        trailer: state.trailer
-      })
+      // console.log({
+      //   id: +query.get('id'),
+      //   movie_name: state.movieName,
+      //   duration: +state.duration,
+      //   poster: state.poster,
+      //   release_date: state.releaseDate.split('-').join('/'),
+      //   description: state.description,
+      //   trailer: state.trailer
+      // })
       // setAlert("Verifying...please wait");
       var url="https://app-movie-genre-service.herokuapp.com/movie/update";
       axios.post(url,{
@@ -130,7 +181,7 @@ export default function UpdateMovie() {
         release_date: state.releaseDate.split('-').join('/'),
         description: state.description,
         trailer: state.trailer,
-        genre_ids: [4,9]
+        genre_ids: allGenre.filter(item => genreName.indexOf(item.genre_name) !== -1 ).map(item => item.id)
       })
         .then(response => {
             console.log(response.status);
@@ -214,6 +265,37 @@ export default function UpdateMovie() {
             autoComplete="Duration"
             onChange={handleChange}
           />
+
+        <FormControl variant="outlined" className={classes.formControl} >
+          <InputLabel id="demo-simple-select-outlined">Movie Genre</InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined"
+            id="demo-simple-select-outlined"
+            multiple
+            // ref={selectRef}
+            value={genreName}
+            onChange={(e) => { 
+              setGenreName(e.target.value);
+            }}
+            input={<Input id="select-multiple-chip" />}
+            renderValue={(selected) => (
+              <div className={classes.chips}>
+                {selected.map((value) => (
+                  <Chip key={value} label={value} className={classes.chip} />
+                ))}
+              </div>
+            )}
+            MenuProps={MenuProps}
+          >
+            {allGenre.map((genre) => (
+              <MenuItem key={genre.genre_name} value={genre.genre_name} style={getStyles(genre.genre_name, genreName, theme)}>
+                {genre.genre_name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+
           <TextField
             variant="outlined"
             margin="normal"

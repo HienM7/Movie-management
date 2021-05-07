@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
 import NavBar from '../components/NavBar';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -12,6 +12,13 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Chip from '@material-ui/core/Chip';
+
 
 
 
@@ -41,12 +48,51 @@ const useStyles = makeStyles((theme) => ({
     width: 200,
     height: 300,
     margin: '0 auto',
-  }
+  },
+  formControl: {
+    // margin: theme.spacing(1),
+    width: '100%',
+    height: 50,
+    paddingBottom: 20, 
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2,
+  },
+  noLabel: {
+    marginTop: theme.spacing(3),
+  },
 }));
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function getStyles(name, personName, theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+
 
 export default function CreateMovie(props) {
 
   const classes = useStyles();
+  const theme = useTheme();
+  // const selectRef = useRef(null); 
 
   const [state,setState]=useState({
     movieName: "",
@@ -58,7 +104,20 @@ export default function CreateMovie(props) {
   });
 
   const [redirect, setRedirect] = useState(false);
+  const [allGenre, setAllGenre] = useState([]);
+  const [genreName, setGenreName] = useState([]);
 
+  useEffect(()=>{
+    axios.get(`https://app-movie-genre-service.herokuapp.com/genre`)
+    .then(response => {
+        if (response.status===200 || response.status === 201) {
+          setAllGenre(response.data.data)
+        }
+      })
+      .catch(err => console.log(err));
+  },[]);
+  
+  
   const handleChange=(event)=>{
     const { name, value }=event.target;
     console.log(name, value);
@@ -68,19 +127,24 @@ export default function CreateMovie(props) {
     }));
   };
 
+
   const handleSubmit=(event)=>{
     event.preventDefault();
     if(null)
       console.log('');
     //   setAlert("Please enter your username and password!");
     else{
+      debugger;
+      console.log(allGenre);
+      console.log(genreName);
       console.log({
         movie_name: state.movieName,
         duration: +state.duration,
         poster: state.poster,
         release_date: state.releaseDate.split('-').join('/'),
         description: state.description,
-        trailer: state.trailer
+        trailer: state.trailer,
+        genre_ids: allGenre.filter(item => genreName.indexOf(item.genre_name) !== -1 ).map(item => item.id)
       })
       // setAlert("Verifying...please wait");
       var url="https://app-movie-genre-service.herokuapp.com/movie/new";
@@ -91,11 +155,10 @@ export default function CreateMovie(props) {
         release_date: state.releaseDate.split('-').join('/'),
         description: state.description,
         trailer: state.trailer,
-        genre_ids: [4,9]
+        genre_ids: allGenre.filter(item => genreName.indexOf(item.genre_name) !== -1 ).map(item => item.id)
       })
         .then(response => {
             console.log(response.status);
-
           //console.log(response);
           // props.onReceiveToken(response.data.data.token);
           if (response.status === 200 || response.status === 201) {
@@ -162,7 +225,6 @@ export default function CreateMovie(props) {
             autoComplete="movie_name"
             onChange={handleChange}
           />
-
         <TextField
             variant="outlined"
             margin="normal"
@@ -175,6 +237,36 @@ export default function CreateMovie(props) {
             autoComplete="Duration"
             onChange={handleChange}
           />
+
+          <FormControl variant="outlined" className={classes.formControl} >
+            <InputLabel id="demo-simple-select-outlined">Movie Genre</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined"
+              id="demo-simple-select-outlined"
+              multiple
+              // ref={selectRef}
+              value={genreName}
+              onChange={(e) => { 
+                setGenreName(e.target.value);
+              }}
+              input={<Input id="select-multiple-chip" />}
+              renderValue={(selected) => (
+                <div className={classes.chips}>
+                  {selected.map((value) => (
+                    <Chip key={value} label={value} className={classes.chip} />
+                  ))}
+                </div>
+              )}
+              MenuProps={MenuProps}
+            >
+              {allGenre.map((genre) => (
+                <MenuItem key={genre.genre_name} value={genre.genre_name} style={getStyles(genre.genre_name, genreName, theme)}>
+                  {genre.genre_name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
           <TextField
             variant="outlined"
             margin="normal"
