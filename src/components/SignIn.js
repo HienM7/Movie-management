@@ -17,10 +17,18 @@ import axios from "axios";
 import { useState, useContext } from "react";
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from "../contexts/AuthContext"; 
+import jwt_decode from "jwt-decode";
+
 
 
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -66,25 +74,29 @@ export default function SignIn(props) {
     if(state.username===""||state.password==="") 
       setAlert("Please enter your username and password!");
     else{
-      setAlertKind("Success");
+      setAlertKind("info");
       setAlert("Verifying...please wait");
       var url="https://myplsapp.herokuapp.com/auth/login";
       axios.post(url,state)
         .then(response => {
-          //console.log(response);
-          // props.onReceiveToken(response.data.data.token);
-          localStorage.setItem('token', response.data.data.token);  
-          setAlert("Login Success");
-          setAlertKind("Success");
-          setAuthInfo({
-            ...authInfo,
-            isLogin: true
-          });
+          const payload = jwt_decode(response.data.data.token);
+          if (payload.roles === "ROLE_EMPLOYEE" || payload.roles === "ROLE_ADMIN") {
+            localStorage.setItem('token', response.data.data.token); 
+            setAlert("Login Success");
+            setAlertKind("Success");
+            setAuthInfo({
+              ...authInfo,
+              isLogin: true
+            });
+          } else {
+            setAlertKind("error");
+            setAlert("User is not exits");
+          }
         })
         .catch(error => {
           console.log(error);
           if(error.response.data&&error.response.data.status===401)
-            setAlertKind("");
+            setAlertKind("error");
             setAlert(error.response.data.message);
         });
     }

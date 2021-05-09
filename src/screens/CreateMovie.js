@@ -141,7 +141,6 @@ export default function CreateMovie(props) {
       console.log('');
     //   setAlert("Please enter your username and password!");
     else{
-      debugger;
       console.log(allGenre);
       console.log(genreName);
       // console.log({

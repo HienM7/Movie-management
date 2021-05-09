@@ -24,6 +24,7 @@ export const AuthProvider = (props) => {
           isLoading: false
         });
       } else {
+        localStorage.removeItem('token');
         setAuthInfo({
           isLoading: false
         });
