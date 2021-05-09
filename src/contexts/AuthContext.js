@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import axios from 'axios';
 
 
 
@@ -16,6 +17,7 @@ export const AuthProvider = (props) => {
   useEffect(() => {
     if(localStorage.getItem('token')) {
       const payload = jwt_decode(localStorage.getItem('token'));
+      axios.defaults.headers.common['x-access-token'] = localStorage.getItem('token');
       if (payload.roles === "ROLE_EMPLOYEE" || payload.roles === "ROLE_ADMIN") {
         setAuthInfo({
           ...authInfo,
