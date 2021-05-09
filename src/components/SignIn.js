@@ -14,8 +14,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Redirect } from 'react-router-dom';
+import { AuthContext } from "../contexts/AuthContext"; 
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,12 +41,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn(props) {
+
+  const { authInfo, setAuthInfo } = useContext(AuthContext);
+
   const [state,setState]=useState({
     username: "",
     password: "",
   });
   const [alert,setAlert]=useState("");
-  const [isLogin, setLogin] = useState(false);
 
   const [alertKind, setAlertKind]=useState('error')
   
@@ -62,6 +66,7 @@ export default function SignIn(props) {
     if(state.username===""||state.password==="") 
       setAlert("Please enter your username and password!");
     else{
+      setAlertKind("Success");
       setAlert("Verifying...please wait");
       var url="https://myplsapp.herokuapp.com/auth/login";
       axios.post(url,state)
@@ -71,19 +76,22 @@ export default function SignIn(props) {
           localStorage.setItem('token', response.data.data.token);  
           setAlert("Login Success");
           setAlertKind("Success");
-          setLogin(true);
+          setAuthInfo({
+            ...authInfo,
+            isLogin: true
+          });
         })
         .catch(error => {
           console.log(error);
           if(error.response.data&&error.response.data.status===401)
+            setAlertKind("");
             setAlert(error.response.data.message);
         });
     }
   }
 
   const classes = useStyles();
-
-  if(isLogin) {
+  if(authInfo.isLogin) {
     return <Redirect to='/'/>
   }
 
@@ -139,7 +147,7 @@ export default function SignIn(props) {
           >
             Sign In
           </Button>
-          <Grid container>
+          {/* <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
                 Forgot password?
@@ -150,7 +158,7 @@ export default function SignIn(props) {
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
-          </Grid>
+          </Grid> */}
         </form>
       </div>
     </Container>

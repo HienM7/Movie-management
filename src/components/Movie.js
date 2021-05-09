@@ -31,20 +31,12 @@ export default function Movie(props) {
   const classes = useStyles();
   const { movie, index } = props;
 
-  if (!localStorage.getItem('token')) {
-    return <Redirect to="/login"/>
-  }
-
   return (
     <Link to={`/movie/edit/?id=${movie.movie_id}`} className={classes.link}>
       <Card className={classes.root}>
         <CardActionArea>
           {
-            /* <CardMedia
-              className={classes.media}
-              image="https://www.cgv.vn/media/catalog/product/cache/1/image/1800x/71252117777b696995f01934522c402d/g/o/godzilla_vs.jpg"
-              title="Contemplative Reptile"
-            /> */
+          //  index && <div></div>
           }
           <img className={classes.media} src={movie.poster} alt="Movie Poster"/>
           <CardContent>

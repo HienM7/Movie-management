@@ -15,7 +15,7 @@ import  {  Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
  container: {
-   marginTop: 50,
+   marginTop: 110,
    position: "relative"
  },
  buttonCreate: {
@@ -49,10 +49,6 @@ export default function SearchAppBar() {
       return ()=>{mounted=false;}
   },[]);
   
-
-  if (!localStorage.getItem('token')) {
-    return <Redirect to="/login"/>
-  }
   return (
     <div className={classes.root}>
       <Container className={classes.container}>
@@ -71,8 +67,8 @@ export default function SearchAppBar() {
           
         </div>
         <Grid container spacing={6}>
-        {list==null?null:(
-          list.map((movie, index) => <Grid key={index} item xs={12} sm={6} md={3}>
+        {list && (
+          list.reverse().map((movie, index) => <Grid key={index} item xs={12} sm={6} md={3}>
             <Movie movie={movie} />
           </Grid>)
           )

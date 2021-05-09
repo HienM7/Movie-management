@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import NavBar from './components/NavBar';
+import { AuthProvider } from './contexts/AuthContext';
 import {
   BrowserRouter as Router,
 } from "react-router-dom";
@@ -12,10 +13,12 @@ import {
 ReactDOM.render(
   
   <React.StrictMode>
-    <Router>
-      <NavBar />
-      <App />
-    </Router>
+    <AuthProvider >
+      <Router>
+        <NavBar />
+        <App />
+      </Router>
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

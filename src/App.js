@@ -1,10 +1,12 @@
 import './App.css';
 import SignIn from './components/SignIn';
 import ListMovie from './components/ListMovies';
-import MovieScheduler from './components/MovieScheduler';
 import CreateMovie from './screens/CreateMovie';
-import { useState, useEffect} from 'react';
+import { useContext} from 'react';
 import  UpdateMovie  from './screens/UpdateMovie';
+import { AuthContext } from './contexts/AuthContext';
+import MovieScheduler from './screens/Scheduler';
+import ListRoom from './screens/ListRoom';
 
 import {
   BrowserRouter as Router,
@@ -16,34 +18,35 @@ import {
 
 function App() {
 
-  // const [token, setToken] = useState('');
-  
+  const { authInfo, setAuthInfo } = useContext(AuthContext);
 
   // useEffect(()=>{
   //   if(localStorage && localStorage.getItem('token'))
   //     setToken(localStorage.getItem('token')));
   // },[token]);
 
-
   return (
         <Switch>
           <Route exact path="/movie/create">
-            <CreateMovie />
+           { !authInfo.isLogin ? <Redirect to='/login'/> : <CreateMovie />}
           </Route>
           <Route exact path="/movie/schedule">
-            <MovieScheduler />
+            { !authInfo.isLogin ? <Redirect to='/login'/> : <MovieScheduler />}
+          </Route>
+          <Route exact path="/movie/rooms">
+            { !authInfo.isLogin ? <Redirect to='/login'/> : <ListRoom />}
           </Route>
           <Route exact path="/login">
             <SignIn />
           </Route>
           <Route exact path="/movie/edit">
-            <UpdateMovie />
+            { !authInfo.isLogin ? <Redirect to='/login'/> :  <UpdateMovie />}
           </Route>
           <Route exact path="/">
-            <ListMovie />
+            { !authInfo.isLogin ? <Redirect to='/login'/> :  <ListMovie />}
           </Route>
           <Route exact path="/movie">
-            <ListMovie />
+            { !authInfo.isLogin ? <Redirect to='/login'/> :   <ListMovie />}
           </Route>
         </Switch>
   );

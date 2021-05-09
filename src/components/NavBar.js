@@ -1,20 +1,19 @@
-import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import LocalMoviesIcon from '@material-ui/icons/LocalMovies';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import  { Link, Redirect } from 'react-router-dom';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-
-
+import React, { useEffect, useContext } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import LocalMoviesIcon from "@material-ui/icons/LocalMovies";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import { Link, Redirect } from "react-router-dom";
+import Badge from "@material-ui/core/Badge";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MailIcon from "@material-ui/icons/Mail";
+import { AuthContext } from "../contexts/AuthContext"; 
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,14 +26,13 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   navLinks: {
-    display: 'flex'
+    display: "flex",
   },
   link: {
-    textDecoration: 'none',
-    color: 'white',
-  }
+    textDecoration: "none",
+    color: "white",
+  },
 }));
-
 
 export default function NavBar(props) {
   const classes = useStyles();
@@ -42,13 +40,13 @@ export default function NavBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
+  const { authInfo, setAuthInfo } = useContext(AuthContext);
+
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
+    if (!localStorage.getItem("token")) {
       setAuth(false);
     }
   }, []);
-  
-
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
@@ -64,33 +62,46 @@ export default function NavBar(props) {
 
   const doLogout = () => {
     setAnchorEl(null);
-    localStorage.removeItem('token');
-    setAuth(false);
-  }
+    localStorage.removeItem("token");
+    setAuthInfo({
+      ...authInfo,
+      isLogin: false
+    });
+  };
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" position='fixed'>
         <Toolbar>
-          <Link to={'/'} className={classes.link}>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                <LocalMoviesIcon />
+          <Link to={"/"} className={classes.link}>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <LocalMoviesIcon />
             </IconButton>
           </Link>
-          <Typography variant="h6" className={classes.title}>
-            Movie Management
-          </Typography>
-          <Link to={'/movie/schedule'} className={classes.link}>
-                <Button color="inherit">Movie Scheduler</Button>
-          </Link>
-          
-          <Link to={'/movie'} className={classes.link}>
-            <Button color="inherit">List Movie</Button>
-          </Link>
+            <Typography variant="h6" className={classes.title}>
+              Movie Management
+            </Typography>
 
-          <Link to={'/movie'} className={classes.link}>
-            <Button color="inherit">Movies Genre</Button>
-          </Link>
+          {authInfo.isLogin && (
+            <div>
+              <Link to={"/movie/rooms"} className={classes.link}>
+                <Button color="inherit">Movie Scheduler</Button>
+              </Link>
+              <Link to={"/movie"} className={classes.link}>
+                <Button color="inherit">List Movie</Button>
+              </Link>
+            
+              <Link to={"/movie"} className={classes.link}>
+                <Button color="inherit">Movies Genre</Button>
+              </Link>
+            </div>
+          )}
+
           {/* <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}
@@ -110,8 +121,8 @@ export default function NavBar(props) {
               </a>
             ))}
           </List> */}
-          {!auth? (
-            <Link to={'/login'} className={classes.link}>
+          {!authInfo.isLogin ? (
+            <Link to={"/login"} className={classes.link}>
               <Button color="inherit">Login</Button>
             </Link>
           ) : (
@@ -129,13 +140,13 @@ export default function NavBar(props) {
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 keepMounted
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 open={open}
                 onClose={handleClose}
@@ -146,10 +157,6 @@ export default function NavBar(props) {
               </Menu>
             </div>
           )}
-
-
-
-
         </Toolbar>
       </AppBar>
     </div>

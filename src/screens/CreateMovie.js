@@ -23,6 +23,9 @@ import Chip from '@material-ui/core/Chip';
 
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: 110
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
