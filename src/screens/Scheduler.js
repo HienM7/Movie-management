@@ -519,8 +519,8 @@ export default class MovieScheduler extends React.PureComponent {
       );
     }
     return (
-      <Paper>
-        <Scheduler data={data} height={(window.screen.height * 89) / 100}>
+      <Paper style={{position: 'fixed', top: 70}}>
+        <Scheduler data={data} height={(window.screen.height * 88) / 100}>
           <ViewState
             // defaultCurrentDate="2018-07-25"
             defaultCurrentViewName="Week"
