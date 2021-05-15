@@ -15,6 +15,7 @@ import {
   Link,
   Redirect
 } from "react-router-dom";
+import Genre from './screens/Genre'
 
 function App() {
 
@@ -47,6 +48,9 @@ function App() {
           </Route>
           <Route exact path="/movie">
             { !authInfo.isLogin ? <Redirect to='/login'/> :   <ListMovie />}
+          </Route>
+          <Route exact path="/genres">
+            { !authInfo.isLogin ? <Redirect to='/login'/> :   <Genre />}
           </Route>
         </Switch>
   );

@@ -117,7 +117,7 @@ export default function UpdateMovie() {
   const [genreName, setGenreName] = useState([]);
 
   useEffect(()=>{
-    axios.get(`https://app-movie-genre-service.herokuapp.com/genre`)
+    axios.get(`https://fbk-api-gateway.herokuapp.com/genre`)
     .then(response => {
         if (response.status===200 || response.status === 201) {
           setAllGenre(response.data.data)
@@ -129,7 +129,7 @@ export default function UpdateMovie() {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(()=>{
-    axios.get(`https://app-movie-genre-service.herokuapp.com/movie/?id=${query.get('id')}`) 
+    axios.get(`https://fbk-api-gateway.herokuapp.com/movie/?id=${query.get('id')}`) 
     .then(response => {
         if (response.status===200 || response.status === 201) {
           // console.log({
@@ -181,7 +181,19 @@ export default function UpdateMovie() {
       //   trailer: state.trailer
       // })
       // setAlert("Verifying...please wait");
-      var url="https://app-movie-genre-service.herokuapp.com/movie/update";
+      var url="https://fbk-api-gateway.herokuapp.com/movie/update";
+
+      // console.log({
+      //   id: +query.get('id'),
+      //   movie_name: state.movieName,
+      //   duration: +state.duration,
+      //   poster: state.poster,
+      //   release_date: state.releaseDate.split('-').reverse().join('/'),
+      //   description: state.description,
+      //   trailer: state.trailer,
+      //   genre_ids: allGenre.filter(item => genreName.indexOf(item.genre_name) !== -1 ).map(item => item.id)
+      // })
+
       axios.post(url,{
         id: +query.get('id'),
         movie_name: state.movieName,

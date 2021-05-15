@@ -42,7 +42,7 @@ export default function SearchAppBar() {
 
   
   useEffect(()=>{
-    axios.get("https://app-screening-service.herokuapp.com/room") 
+    axios.get("https://fbk-api-gateway.herokuapp.com/room") 
     .then(response => {
         if (response.status === 200 || response.status === 201) 
         setList(response.data.data);

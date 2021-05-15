@@ -115,7 +115,7 @@ export default function CreateMovie(props) {
   const [genreName, setGenreName] = useState([]);
 
   useEffect(()=>{
-    axios.get(`https://app-movie-genre-service.herokuapp.com/genre`)
+    axios.get(`https://fbk-api-gateway.herokuapp.com/genre/`)
     .then(response => {
         if (response.status===200 || response.status === 201) {
           setAllGenre(response.data.data)
@@ -153,7 +153,7 @@ export default function CreateMovie(props) {
       //   genre_ids: allGenre.filter(item => genreName.indexOf(item.genre_name) !== -1 ).map(item => item.id)
       // })
       // setAlert("Verifying...please wait");
-      var url="https://app-movie-genre-service.herokuapp.com/movie/new";
+      var url="https://fbk-api-gateway.herokuapp.com/movie/new";
       axios.post(url,{
         movie_name: state.movieName,
         duration: +state.duration,

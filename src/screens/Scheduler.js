@@ -244,7 +244,7 @@ export default class MovieScheduler extends React.PureComponent {
     let movies, appointments, room;
     try {
       const getMovies = await axios.get(
-        "https://app-movie-genre-service.herokuapp.com/movie/"
+        "https://fbk-api-gateway.herokuapp.com/movie/"
       );
       if (getMovies.status === 200 || getMovies.status === 201) {
         movies = getMovies.data.data;
@@ -252,7 +252,7 @@ export default class MovieScheduler extends React.PureComponent {
         return;
       }
       const getAppointments = await axios.get(
-        `https://app-screening-service.herokuapp.com/screening-room/?room_id=${urlParams.get(
+        `https://fbk-api-gateway.herokuapp.com/screening-room/?room_id=${urlParams.get(
           "id"
         )}`
       );
@@ -262,7 +262,7 @@ export default class MovieScheduler extends React.PureComponent {
         return;
       }
       const getRoom = await axios.get(
-        "https://app-screening-service.herokuapp.com/room"
+        "https://fbk-api-gateway.herokuapp.com/room"
       );
 
       if (getRoom.status === 200 || getRoom.status === 201) {
@@ -302,7 +302,7 @@ export default class MovieScheduler extends React.PureComponent {
     if (added) {
       if (added.movie && added.startDate && added.endDate) {
         axios
-          .post("https://app-screening-service.herokuapp.com/screening/new", {
+          .post("https://fbk-api-gateway.herokuapp.com/screening/new", {
             movie_id: added.movie,
             date: moment(added.startDate).format("YYYY-MM-DD"),
             started_at: moment(added.startDate).format("HH:mm:ss"),
@@ -354,7 +354,7 @@ export default class MovieScheduler extends React.PureComponent {
         
 
         axios
-          .post("https://app-screening-service.herokuapp.com/screening/new", {
+          .post("https://fbk-api-gateway.herokuapp.com/screening/new", {
             movie_id: changedMovie.movie,
             date: moment(changed[changedMovie.id].startDate).format("YYYY-MM-DD"),
             started_at: moment(changed[changedMovie.id].startDate).format("HH:mm:ss"),
@@ -408,7 +408,7 @@ export default class MovieScheduler extends React.PureComponent {
           if (changed[item.id]) {
             axios
               .post(
-                "https://app-screening-service.herokuapp.com/screening/update",
+                "https://fbk-api-gateway.herokuapp.com/screening/update",
                 {
                   id: item.id,
                   movie_id: changed[item.id].movie || item.movie,
@@ -446,7 +446,7 @@ export default class MovieScheduler extends React.PureComponent {
       }
     }
     if (deleted !== undefined) {
-      axios.post('https://app-screening-service.herokuapp.com/screening/del', {
+      axios.post('https://fbk-api-gateway.herokuapp.com/screening/del', {
         id: deleted
       }).then(res => {
         if (res.status === 200 || res.status === 201) {
@@ -520,7 +520,7 @@ export default class MovieScheduler extends React.PureComponent {
     }
     return (
       <Paper style={{position: 'fixed', top: 70}}>
-        <Scheduler data={data} height={(window.screen.height * 88) / 100}>
+        <Scheduler data={data} height={(window.screen.height * 85) / 100}>
           <ViewState
             // defaultCurrentDate="2018-07-25"
             defaultCurrentViewName="Week"

@@ -40,12 +40,12 @@ export default function SearchAppBar() {
   
   useEffect(()=>{
     let mounted=true;
-    axios.get("https://app-movie-genre-service.herokuapp.com/movie") 
+    axios.get("https://fbk-api-gateway.herokuapp.com/movie/") 
     .then(response => {
         if (mounted) setList(response.data.data);
       })
       .catch(err => console.log(err));
-      
+
       return ()=>{mounted=false;}
   },[]);
   
