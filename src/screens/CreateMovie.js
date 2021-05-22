@@ -115,7 +115,7 @@ export default function CreateMovie(props) {
   const [genreName, setGenreName] = useState([]);
 
   useEffect(()=>{
-    axios.get(`https://fbk-api-gateway.herokuapp.com/genre/`)
+    axios.get(`https://fbk-api-gateway.herokuapp.com/genre`)
     .then(response => {
         if (response.status===200 || response.status === 201) {
           setAllGenre(response.data.data)

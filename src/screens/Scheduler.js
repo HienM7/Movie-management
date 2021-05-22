@@ -244,7 +244,7 @@ export default class MovieScheduler extends React.PureComponent {
     let movies, appointments, room;
     try {
       const getMovies = await axios.get(
-        "https://fbk-api-gateway.herokuapp.com/movie/"
+        "https://fbk-api-gateway.herokuapp.com/movie"
       );
       if (getMovies.status === 200 || getMovies.status === 201) {
         movies = getMovies.data.data;
@@ -252,7 +252,7 @@ export default class MovieScheduler extends React.PureComponent {
         return;
       }
       const getAppointments = await axios.get(
-        `https://fbk-api-gateway.herokuapp.com/screening-room/?room_id=${urlParams.get(
+        `https://fbk-api-gateway.herokuapp.com/screening/by-room?room_id=${urlParams.get(
           "id"
         )}`
       );

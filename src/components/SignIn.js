@@ -82,7 +82,7 @@ export default function SignIn(props) {
           const payload = jwt_decode(response.data.data.token);
           if (payload.roles === "ROLE_EMPLOYEE" || payload.roles === "ROLE_ADMIN") {
             localStorage.setItem('token', response.data.data.token); 
-            axios.defaults.headers.common['authorization'] = localStorage.getItem('token');
+            axios.defaults.headers.common['authorization'] = 'Bearer '+ localStorage.getItem('token');
             setAlert("Login Success");
             setAlertKind("Success");
             setAuthInfo({

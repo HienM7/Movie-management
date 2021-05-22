@@ -49,7 +49,7 @@ export default function Genre() {
   const [genreName, setGenreName] = useState('');
   const [genreId, setGenreId] = useState();
   useEffect(()=>{
-    axios.get(`https://fbk-api-gateway.herokuapp.com/genre/`)
+    axios.get(`https://fbk-api-gateway.herokuapp.com/genre`)
     .then(response => {
         if (response.status===200 || response.status === 201) {
           setAllGenre(response.data.data)
@@ -67,7 +67,7 @@ export default function Genre() {
     setCreateOpen(false);
   };
 
-  const handleEditOpen = (row, index) => {
+  const handleEditOpen = (row) => {
     setEditOpen(true);
     setGenreName(row.genre_name);
     setGenreId(row.id);
@@ -102,7 +102,7 @@ export default function Genre() {
       });
 
       if (editGenre.status === 200 || editGenre.status === 201) {
-        setAllGenre(allGenre.filter(genre => genre.id === genreId ? {genre_name: genreName, id: genreId} : genre));
+        setAllGenre(allGenre.map(genre => genre.id === genreId ? {genre_name: genreName, id: genreId} : genre));
         setEditOpen(false);
       }
     } catch (error) {

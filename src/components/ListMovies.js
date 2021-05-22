@@ -10,7 +10,7 @@ import axios from 'axios';
 import  { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import  {  Redirect } from 'react-router-dom';
+import  { Redirect } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,9 +38,11 @@ export default function SearchAppBar() {
   const [list,setList]=useState();
 
   
+
+  
   useEffect(()=>{
     let mounted=true;
-    axios.get("https://fbk-api-gateway.herokuapp.com/movie/") 
+    axios.get("https://fbk-api-gateway.herokuapp.com/movie") 
     .then(response => {
         if (mounted) setList(response.data.data);
       })
@@ -48,7 +50,7 @@ export default function SearchAppBar() {
 
       return ()=>{mounted=false;}
   },[]);
-  
+
   return (
     <div className={classes.root}>
       <Container className={classes.container}>

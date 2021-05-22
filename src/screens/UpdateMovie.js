@@ -129,7 +129,7 @@ export default function UpdateMovie() {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(()=>{
-    axios.get(`https://fbk-api-gateway.herokuapp.com/movie/?id=${query.get('id')}`) 
+    axios.get(`https://fbk-api-gateway.herokuapp.com/movie?id=${query.get('id')}`) 
     .then(response => {
         if (response.status===200 || response.status === 201) {
           // console.log({

@@ -17,7 +17,7 @@ export const AuthProvider = (props) => {
   useEffect(() => {
     if(localStorage.getItem('token')) {
       const payload = jwt_decode(localStorage.getItem('token'));
-      axios.defaults.headers.common['authorization'] = localStorage.getItem('token');
+      axios.defaults.headers.common['authorization'] = 'Bearer '+ localStorage.getItem('token');
       if (payload.roles === "ROLE_EMPLOYEE" || payload.roles === "ROLE_ADMIN") {
         setAuthInfo({
           ...authInfo,

@@ -96,7 +96,7 @@ export default function NavBar(props) {
                 <Button color="inherit">List Movie</Button>
               </Link>
             
-              <Link to={"/movie"} className={classes.link}>
+              <Link to={"/genres"} className={classes.link}>
                 <Button color="inherit">Movies Genre</Button>
               </Link>
             </div>
