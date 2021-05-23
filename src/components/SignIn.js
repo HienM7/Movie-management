@@ -80,7 +80,7 @@ export default function SignIn(props) {
       axios.post(url,state)
         .then(response => {
           const payload = jwt_decode(response.data.data.token);
-          if (payload.roles === "ROLE_EMPLOYEE" || payload.roles === "ROLE_ADMIN") {
+          if (payload.roles.indexOf("ROLE_EMPLOYEE") !== -1 || payload.roles.indexOf("ROLE_ADMIN") !== -1) {
             localStorage.setItem('token', response.data.data.token); 
             axios.defaults.headers.common['authorization'] = 'Bearer '+ localStorage.getItem('token');
             setAlert("Login Success");

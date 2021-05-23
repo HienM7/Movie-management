@@ -18,7 +18,7 @@ export const AuthProvider = (props) => {
     if(localStorage.getItem('token')) {
       const payload = jwt_decode(localStorage.getItem('token'));
       axios.defaults.headers.common['authorization'] = 'Bearer '+ localStorage.getItem('token');
-      if (payload.roles === "ROLE_EMPLOYEE" || payload.roles === "ROLE_ADMIN") {
+      if (payload.roles.indexOf("ROLE_EMPLOYEE") !== -1 || payload.roles.indexOf("ROLE_ADMIN") !== -1) {
         setAuthInfo({
           ...authInfo,
           ...payload,
