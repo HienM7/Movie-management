@@ -7,6 +7,7 @@ import  UpdateMovie  from './screens/UpdateMovie';
 import { AuthContext } from './contexts/AuthContext';
 import MovieScheduler from './screens/Scheduler';
 import ListRoom from './screens/ListRoom';
+import BookingInfo from './screens/BookingInfo';
 
 import {
   BrowserRouter as Router,
@@ -51,6 +52,9 @@ function App() {
           </Route>
           <Route exact path="/genres">
             { !authInfo.isLogin ? <Redirect to='/login'/> :   <Genre />}
+          </Route>
+          <Route exact path="/booking-check">
+            { !authInfo.isLogin ? <Redirect to='/login'/> :   <BookingInfo />}
           </Route>
         </Switch>
   );
