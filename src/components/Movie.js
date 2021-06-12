@@ -14,11 +14,13 @@ import  { Link, Redirect } from 'react-router-dom';
 const useStyles = makeStyles({
   root: {
     // maxWidth: 3s45,
+    height: 579
   },
 
   media: {
     // height: 400,
     width: '100%',
+    height: 400
   },
   link: {
     textDecoration: 'none',
@@ -26,6 +28,12 @@ const useStyles = makeStyles({
   }
 
 });
+
+const movie_status = [
+  {id: 1, name: "Not show"},
+  {id: 2, name: "Is showing"},
+  {id: 3, name: "Will show"},
+];
 
 export default function Movie(props) {
   const classes = useStyles();
@@ -47,6 +55,8 @@ export default function Movie(props) {
               Genre: {movie.genre_name.join(', ')}<br/>
               Release date: {movie.release_date}<br/>
               Duration: {movie.duration} minutes<br/>
+              Status: {movie_status.find(item => movie.status === item.id).name}<br/>
+
             </Typography>
           </CardContent>
         </CardActionArea>

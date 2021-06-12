@@ -286,7 +286,7 @@ export default class MovieScheduler extends React.PureComponent {
           movie: appointment.movie.movie_id,
           location: "Screen " + room.room_name,
         })),
-        movies: movies,
+        movies: movies.filter(item => item.status !== 1),
         room: {
           roomId: room.room_id,
           roomName: "Screen " + room.room_name,
@@ -475,6 +475,8 @@ export default class MovieScheduler extends React.PureComponent {
           ).poster
         })`,
         backgroundSize: "100% 100%",
+        height: 400,
+
       }}
       appointmentData={appointmentData}
     ></AppointmentTooltip.Header>
@@ -485,6 +487,9 @@ export default class MovieScheduler extends React.PureComponent {
       <AppointmentTooltip.Content
         {...restProps}
         appointmentData={appointmentData}
+        style={{
+
+        }}
       >
         <Grid container alignItems="center">
           <Grid item xs={2} className={classes.textCenter}>

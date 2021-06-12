@@ -62,6 +62,13 @@ const useStyles = makeStyles((theme) => ({
     height: 50,
     paddingBottom: 20, 
   },
+  status: {
+    marginTop: 35,
+    marginBottom: 10,
+    width: '100%',
+    height: 50,
+    paddingBottom: 20, 
+  },
   chips: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -107,7 +114,8 @@ export default function CreateMovie(props) {
     poster: "",
     releaseDate: "",
     description: "",
-    trailer: ""
+    trailer: "",
+    status: 1,
   });
 
   const [redirect, setRedirect] = useState(false);
@@ -161,7 +169,8 @@ export default function CreateMovie(props) {
         release_date: state.releaseDate.split('-').reverse().join('/'),
         description: state.description,
         trailer: state.trailer,
-        genre_ids: allGenre.filter(item => genreName.indexOf(item.genre_name) !== -1 ).map(item => item.id)
+        genre_ids: allGenre.filter(item => genreName.indexOf(item.genre_name) !== -1 ).map(item => item.id),
+        movie_status: +state.status,
       })
         .then(response => {
             console.log(response.status);
@@ -277,6 +286,22 @@ export default function CreateMovie(props) {
                   {genre.genre_name}
                 </MenuItem>
               ))}
+            </Select>
+          </FormControl>
+
+          <FormControl variant="outlined" className={classes.status}>
+            <InputLabel id="demo-simple-select-outlined-label">Movie status</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={state.status}
+              onChange={handleChange}
+              label="Movie status"
+              name="status"
+            >
+              <MenuItem value={1}>Not show</MenuItem>
+              <MenuItem value={2}>Is showing</MenuItem>
+              <MenuItem value={3}>Will show</MenuItem>
             </Select>
           </FormControl>
 

@@ -52,6 +52,13 @@ export default function SearchAppBar() {
       
   },[]);
   
+  const roomImages = [
+    "https://alonhatro.com/assets/data/res/up-tin/galaxy-tan-binh.png",
+    "http://kntvietnam.com/upload/images/du-an/Galaxy/tb%2012.jpg",
+    "https://chonthuonghieu.com/wp-content/uploads/listing-uploads/gallery/2021/02/GALAXYHP1.jpg",
+    "https://rapchieuphim.com/photos/2/galaxy/galaxy-kinh-duong-vuong-2.png"
+  ]
+  
   return (
     <div className={classes.root}>
       <Container className={classes.container}>
@@ -66,7 +73,7 @@ export default function SearchAppBar() {
                 {
                 //  index && <div></div>
                 }
-                <img className={classes.media} src={"https://channel.mediacdn.vn/thumb_w/640/2019/7/29/photo-4-1564396581026113796908.jpg"} alt="Room Poster"/>
+                <img className={classes.media} src={roomImages[index]} alt="Room Poster"  style={{width: 700, height: 425}}/>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2" align="center">
                     {"Screen " + room.room_name}

@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.MuiPopover-root > .MuiPaper-root.MuiPopover-paper.MuiPaper-rounded {
+  width: 300px !important;
+  border-radius: 8px !important;
+}

@@ -1,4 +1,3 @@
-import './App.css';
 import SignIn from './components/SignIn';
 import ListMovie from './components/ListMovies';
 import CreateMovie from './screens/CreateMovie';
