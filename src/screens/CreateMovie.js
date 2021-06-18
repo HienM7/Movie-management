@@ -18,9 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
-
-
-
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -121,6 +119,7 @@ export default function CreateMovie(props) {
   const [redirect, setRedirect] = useState(false);
   const [allGenre, setAllGenre] = useState([]);
   const [genreName, setGenreName] = useState([]);
+  const [error, setError] = useState('');
 
   useEffect(()=>{
     axios.get(`https://fbk-api-gateway.herokuapp.com/genre`)
@@ -184,6 +183,7 @@ export default function CreateMovie(props) {
           // setAlertKind("Success")    
         })
         .catch(error => {
+          setError('Can not create new movie');
           console.log(error);
           // if(error.response.data&&error.response.data.status===401)
           //   setAlert(error.response.data.message);
@@ -233,6 +233,9 @@ export default function CreateMovie(props) {
         <Grid xs={12} sm={6} md={6} style={{ margin: '0 auto' }}>
 
         <form className={classes.form} onSubmit={handleSubmit} >
+          {
+            error && <Alert severity="error">{error}</Alert>
+          }
         <TextField
             variant="outlined"
             margin="normal"
@@ -253,6 +256,7 @@ export default function CreateMovie(props) {
             id="duration"
             label="Duration"
             name="duration"
+            type="number"
             value={state.duration}
             autoComplete="Duration"
             onChange={handleChange}
