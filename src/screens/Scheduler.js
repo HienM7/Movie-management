@@ -490,8 +490,10 @@ export default class MovieScheduler extends React.PureComponent {
             }
 
             const checkDuplicate = data.find(
-              item => ( item.startDate < startDate && item.endDate > startDate) ||
-              ( item.startDate < endDate && item.endDate > endDate)
+              item2 => item.id !== item2.id && (
+                ( item2.startDate < startDate && item2.endDate > startDate) ||
+                ( item2.startDate < endDate && item2.endDate > endDate)
+              )
             );
 
             if(checkDuplicate) {
