@@ -379,6 +379,10 @@ export default class MovieScheduler extends React.PureComponent {
             console.log(response);
           })
           .catch((error) => {
+            this.setState({
+              alertOpen: true, 
+              alert: 'Something went wrong'
+            });
             console.log("Error");
             console.log(error);
           });
@@ -457,6 +461,10 @@ export default class MovieScheduler extends React.PureComponent {
             console.log(response);
           })
           .catch((error) => {
+            this.setState({
+              alertOpen: true, 
+              alert: 'Something went wrong'
+            });
             console.log("Error");
             console.log(error);
           });
@@ -531,6 +539,10 @@ export default class MovieScheduler extends React.PureComponent {
                 }
               })
               .catch((e) => {
+                this.setState({
+                  alertOpen: true, 
+                  alert: 'Something went wrong'
+                });
                 console.log(e.request.body);
               });
           }
@@ -553,7 +565,12 @@ export default class MovieScheduler extends React.PureComponent {
           });
           console.log("delete");
         }
-      }).catch(e => {console.log(e)});
+      }).catch(e => {
+        console.log(e);  
+        this.setState({
+        alertOpen: true, 
+        alert: 'Something went wrong'
+      });});
     }
   } catch (e) {
     this.setState({
