@@ -207,6 +207,7 @@ export default class MovieScheduler extends React.PureComponent {
       currentDate: moment().toString(),
       movies: [],
       alertOpen: false,
+      alert: 'Unsuccessful, Please filled all informations before save',
       isLoading: true,
       room: {},
       isShiftPressed: false,
@@ -301,11 +302,45 @@ export default class MovieScheduler extends React.PureComponent {
     let { data, isShiftPressed } = this.state;
     if (added) {
       if (added.movie && added.startDate && added.endDate) {
+
+        // const endDate =  moment(
+        //   +moment(screening.date + " " + screening.started_at) +
+        //     screening.movie.duration * 60000
+        // )
+        const date =  moment(added.startDate).format("YYYY-MM-DD");
+        const started_at = moment(added.startDate).format("HH:mm:ss");
+        const startDate = moment(added.startDate);
+        const endDate = moment(
+          +moment(date + " " + started_at) +
+            this.state.movies.find(movie => movie.movie_id === added.movie)?.duration * 60000
+        )
+        const check = +(moment(added.startDate).diff(Date.now(), 'days'));
+        if (check > 6 || check < 0) {
+          this.setState({
+            alertOpen: true, 
+            alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
+          });
+          return;
+        }
+
+        const checkDuplicate = this.state.data.find(
+          item => ( item.startDate < startDate && item.endDate > startDate) ||
+          ( item.startDate < endDate && item.endDate > endDate)
+        );
+
+        if(checkDuplicate) {
+          this.setState({
+            alertOpen: true, 
+            alert: 'Unsuccessful, Movie schedules are in conflict'
+          });
+          return;
+        }
+
         axios
           .post("https://fbk-api-gateway.herokuapp.com/screening/new", {
             movie_id: added.movie,
-            date: moment(added.startDate).format("YYYY-MM-DD"),
-            started_at: moment(added.startDate).format("HH:mm:ss"),
+            date,
+            started_at,
             room_id: roomId,
           })
           .then((response) => {
@@ -314,6 +349,7 @@ export default class MovieScheduler extends React.PureComponent {
               const screening = response.data.data;
 
               const startingAddedId = screening.screening_id;
+
               this.setState({
                 data: [
                   ...data,
@@ -333,6 +369,9 @@ export default class MovieScheduler extends React.PureComponent {
                   },
                 ],
               });
+
+
+
               console.log("added");
             }
             console.log("response");
@@ -343,15 +382,15 @@ export default class MovieScheduler extends React.PureComponent {
             console.log(error);
           });
       } else {
-        this.setState({ alertOpen: true });
+        this.setState({ alertOpen: true, alert: 'Unsuccessful, Please filled all informations before save' });
       }
     }
+
     if (changed) {
       if (isShiftPressed) {
         const changedMovie = data.find(
           (movie) => changed[movie.id]
         );
-        
 
         axios
           .post("https://fbk-api-gateway.herokuapp.com/screening/new", {
@@ -403,7 +442,7 @@ export default class MovieScheduler extends React.PureComponent {
         //   }
         // ];
       } else {
-        
+
         data.forEach((item) => {
           if (changed[item.id]) {
             axios
@@ -574,7 +613,7 @@ export default class MovieScheduler extends React.PureComponent {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Unsuccessful, Please filled all informations before save
+              {this.state.alert}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
