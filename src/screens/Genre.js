@@ -18,6 +18,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Pagination from '@material-ui/lab/Pagination';
+
 
 const useStyles = makeStyles({
   paper: {
@@ -27,6 +29,11 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  pagination: {
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '50px auto'
+  }
 });
 
 function createData(genre_name, id) {
@@ -139,6 +146,9 @@ export default function Genre() {
             </TableBody>
           </Table>
         </TableContainer>
+        <div className={classes.pagination}>
+          <Pagination count={1} variant="outlined" color="primary" showFirstButton showLastButton />
+        </div>
       <div>
         <Dialog open={createOpen} onClose={handleCreateClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Create Genre</DialogTitle>
