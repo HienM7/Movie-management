@@ -11,6 +11,7 @@ import  { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import  { Redirect } from 'react-router-dom';
+import Pagination from '@material-ui/lab/Pagination';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,8 +30,12 @@ const useStyles = makeStyles((theme) => ({
  },
  link: {
    textDecoration: "none",
+ },
+ pagination: {
+   display: 'flex',
+   justifyContent: 'center',
+   margin: '50px auto'
  }
- 
 }));
 
 export default function SearchAppBar() {
@@ -76,6 +81,9 @@ export default function SearchAppBar() {
           )
         }
         </Grid>
+        <div className={classes.pagination}>
+          <Pagination count={1} variant="outlined" color="primary" showFirstButton showLastButton />
+        </div>
       </Container>
     </div>
   );

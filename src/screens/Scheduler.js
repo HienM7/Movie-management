@@ -298,6 +298,7 @@ export default class MovieScheduler extends React.PureComponent {
   }
 
   commitChanges({ added, changed, deleted }) {
+    try {
     const { roomId, roomName } = this.state.room;
     let { data, isShiftPressed } = this.state;
     if (added) {
@@ -323,7 +324,7 @@ export default class MovieScheduler extends React.PureComponent {
           return;
         }
 
-        const checkDuplicate = this.state.data.find(
+        const checkDuplicate = data.find(
           item => ( item.startDate < startDate && item.endDate > startDate) ||
           ( item.startDate < endDate && item.endDate > endDate)
         );
@@ -392,6 +393,34 @@ export default class MovieScheduler extends React.PureComponent {
           (movie) => changed[movie.id]
         );
 
+        const startDate = moment(changed[changedMovie.id].startDate);
+        const endDate = moment(
+          +startDate +
+            this.state.movies.find(movie => movie.movie_id === changedMovie.movie)?.duration * 60000
+        )
+        const check = +(startDate.diff(Date.now(), 'days'));
+        if (check > 6 || check < 0) {
+          this.setState({
+            alertOpen: true, 
+            alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
+          });
+          return;
+        }
+
+        const checkDuplicate = data.find(
+          item => ( item.startDate < startDate && item.endDate > startDate) ||
+          ( item.startDate < endDate && item.endDate > endDate)
+        );
+
+        if(checkDuplicate) {
+          this.setState({
+            alertOpen: true, 
+            alert: 'Unsuccessful, Movie schedules are in conflict'
+          });
+          return;
+        }
+
+
         axios
           .post("https://fbk-api-gateway.herokuapp.com/screening/new", {
             movie_id: changedMovie.movie,
@@ -442,9 +471,37 @@ export default class MovieScheduler extends React.PureComponent {
         //   }
         // ];
       } else {
-
         data.forEach((item) => {
           if (changed[item.id]) {
+            
+            const startDate = moment(changed[item.id].startDate || item.startDate );
+            const movieId = changed[item.id].movie || item.movie;
+            const endDate = moment(
+              +startDate +
+                this.state.movies.find(movie => movie.movie_id === movieId)?.duration * 60000
+            )
+            const check = +(startDate.diff(Date.now(), 'days'));
+            if (check > 6 || check < 0) {
+              this.setState({
+                alertOpen: true, 
+                alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
+              });
+              return;
+            }
+
+            const checkDuplicate = data.find(
+              item => ( item.startDate < startDate && item.endDate > startDate) ||
+              ( item.startDate < endDate && item.endDate > endDate)
+            );
+
+            if(checkDuplicate) {
+              this.setState({
+                alertOpen: true, 
+                alert: 'Unsuccessful, Movie schedules are in conflict'
+              });
+              return;
+            }
+
             axios
               .post(
                 "https://fbk-api-gateway.herokuapp.com/screening/update",
@@ -496,6 +553,13 @@ export default class MovieScheduler extends React.PureComponent {
         }
       }).catch(e => {console.log(e)});
     }
+  } catch (e) {
+    this.setState({
+      alertOpen: true, 
+      alert: 'Something went wrong'
+    });
+    return;
+  }
   }
 
   Header = withStyles(style, {
