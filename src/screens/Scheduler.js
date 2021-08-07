@@ -315,15 +315,7 @@ export default class MovieScheduler extends React.PureComponent {
           +moment(date + " " + started_at) +
             this.state.movies.find(movie => movie.movie_id === added.movie)?.duration * 60000
         )
-        const check = +(moment(added.startDate).startOf('day').diff(moment().startOf('day'), 'days'));
-        if (check > 7 || check < 0) {
-          this.setState({
-            alertOpen: true, 
-            alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
-          });
-          return;
-        }
-
+       
         const checkDuplicate = data.find(
           item => ( item.startDate < startDate && item.endDate > startDate) ||
           ( item.startDate < endDate && item.endDate > endDate)
@@ -333,6 +325,15 @@ export default class MovieScheduler extends React.PureComponent {
           this.setState({
             alertOpen: true, 
             alert: 'Unsuccessful, Movie schedules are in conflict'
+          });
+          return;
+        }
+
+        const check = +(moment(added.startDate).startOf('day').diff(moment().startOf('day'), 'days'));
+        if (check > 6 || check < 0) {
+          this.setState({
+            alertOpen: true, 
+            alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
           });
           return;
         }
@@ -402,15 +403,7 @@ export default class MovieScheduler extends React.PureComponent {
           +startDate +
             this.state.movies.find(movie => movie.movie_id === changedMovie.movie)?.duration * 60000
         )
-        const check = +(startDate.startOf('day').diff(moment().startOf('day'), 'days'));
-        if (check > 7 || check < 0) {
-          this.setState({
-            alertOpen: true, 
-            alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
-          });
-          return;
-        }
-
+       
         const checkDuplicate = data.find(
           item => ( item.startDate < startDate && item.endDate > startDate) ||
           ( item.startDate < endDate && item.endDate > endDate)
@@ -424,6 +417,14 @@ export default class MovieScheduler extends React.PureComponent {
           return;
         }
 
+        const check = +(startDate.startOf('day').diff(moment().startOf('day'), 'days'));
+        if (check > 6 || check < 0) {
+          this.setState({
+            alertOpen: true, 
+            alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
+          });
+          return;
+        }
 
         axios
           .post("https://fbk-api-gateway.herokuapp.com/screening/new", {
@@ -484,30 +485,36 @@ export default class MovieScheduler extends React.PureComponent {
             
             const startDate = moment(changed[item.id].startDate || item.startDate );
             const movieId = changed[item.id].movie || item.movie;
+            console.log('change', changed[item.id].movie);
+            console.log('item', item.movie);
             const endDate = moment(
               +startDate +
                 this.state.movies.find(movie => movie.movie_id === movieId)?.duration * 60000
             )
-            const check = +(startDate.startOf('day').diff(moment().startOf('day'), 'days'));
-            if (check > 7 || check < 0) {
-              this.setState({
-                alertOpen: true, 
-                alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
-              });
-              return;
-            }
+            console.log(111111111111111111);
+  
+            const checkDuplicate = data.find(item2 => {
+              // debugger;
 
-            const checkDuplicate = data.find(
-              item2 => item.id !== item2.id && (
+              return item.id !== item2.id && (
                 ( item2.startDate < startDate && item2.endDate > startDate) ||
                 ( item2.startDate < endDate && item2.endDate > endDate)
               )
-            );
+            });
 
             if(checkDuplicate) {
               this.setState({
                 alertOpen: true, 
                 alert: 'Unsuccessful, Movie schedules are in conflict'
+              });
+              return;
+            }
+
+            const check = +(startDate.startOf('day').diff(moment().startOf('day'), 'days'));
+            if (check > 6 || check < 0) {
+              this.setState({
+                alertOpen: true, 
+                alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
               });
               return;
             }
