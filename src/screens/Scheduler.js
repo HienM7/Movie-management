@@ -315,8 +315,8 @@ export default class MovieScheduler extends React.PureComponent {
           +moment(date + " " + started_at) +
             this.state.movies.find(movie => movie.movie_id === added.movie)?.duration * 60000
         )
-        const check = +(moment(added.startDate).diff(Date.now(), 'days'));
-        if (check > 6 || check < 0) {
+        const check = +(moment(added.startDate).startOf('day').diff(moment().startOf('day'), 'days'));
+        if (check > 7 || check < 0) {
           this.setState({
             alertOpen: true, 
             alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
@@ -402,8 +402,8 @@ export default class MovieScheduler extends React.PureComponent {
           +startDate +
             this.state.movies.find(movie => movie.movie_id === changedMovie.movie)?.duration * 60000
         )
-        const check = +(startDate.diff(Date.now(), 'days'));
-        if (check > 6 || check < 0) {
+        const check = +(startDate.startOf('day').diff(moment().startOf('day'), 'days'));
+        if (check > 7 || check < 0) {
           this.setState({
             alertOpen: true, 
             alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
@@ -488,8 +488,8 @@ export default class MovieScheduler extends React.PureComponent {
               +startDate +
                 this.state.movies.find(movie => movie.movie_id === movieId)?.duration * 60000
             )
-            const check = +(startDate.diff(Date.now(), 'days'));
-            if (check > 6 || check < 0) {
+            const check = +(startDate.startOf('day').diff(moment().startOf('day'), 'days'));
+            if (check > 7 || check < 0) {
               this.setState({
                 alertOpen: true, 
                 alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
