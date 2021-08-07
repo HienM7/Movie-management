@@ -317,8 +317,10 @@ export default class MovieScheduler extends React.PureComponent {
         )
        
         const checkDuplicate = data.find(
-          item => ( item.startDate < startDate && item.endDate > startDate) ||
-          ( item.startDate < endDate && item.endDate > endDate)
+          item => ( item.startDate <= startDate && item.endDate >= startDate) ||
+          (item.startDate <= endDate && item.endDate >= endDate) ||
+          (item.startDate <= startDate && item.endDate >= endDate) ||
+          (item.startDate >= startDate && item.endDate <= endDate)
         );
 
         if(checkDuplicate) {
@@ -405,8 +407,10 @@ export default class MovieScheduler extends React.PureComponent {
         )
        
         const checkDuplicate = data.find(
-          item => ( item.startDate < startDate && item.endDate > startDate) ||
-          ( item.startDate < endDate && item.endDate > endDate)
+          item => ( item.startDate <= startDate && item.endDate >= startDate) ||
+          (item.startDate <= endDate && item.endDate >= endDate) ||
+          (item.startDate <= startDate && item.endDate >= endDate) ||
+          (item.startDate >= startDate && item.endDate <= endDate)
         );
 
         if(checkDuplicate) {
@@ -496,9 +500,12 @@ export default class MovieScheduler extends React.PureComponent {
             const checkDuplicate = data.find(item2 => {
               // debugger;
 
+
               return item.id !== item2.id && (
-                ( item2.startDate < startDate && item2.endDate > startDate) ||
-                ( item2.startDate < endDate && item2.endDate > endDate)
+                ( item2.startDate <= startDate && item2.endDate >= startDate) ||
+                ( item2.startDate <= endDate && item2.endDate >= endDate) ||
+                (item2.startDate <= startDate && item2.endDate >= endDate) ||
+                (item2.startDate >= startDate && item2.endDate <= endDate)
               )
             });
 
