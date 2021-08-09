@@ -15,7 +15,15 @@ export const AuthProvider = (props) => {
   useEffect(() => {
     const check = async () => {
       if (localStorage.getItem("token")) {
-        const payload = jwt_decode(localStorage.getItem("token"));
+        let payload;
+        try {
+          payload = jwt_decode(localStorage.getItem("token"));
+        } catch (e) {
+          setAuthInfo({
+            isLoading: false,
+          });
+          return;
+        }
         axios.defaults.headers.common["authorization"] =
           "Bearer " + localStorage.getItem("token");
         try {
