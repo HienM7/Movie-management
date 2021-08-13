@@ -93,11 +93,11 @@ export default function NavBar(props) {
                 <Button color="inherit">Movie Scheduler</Button>
               </Link>
               <Link to={"/movie"} className={classes.link}>
-                <Button color="inherit">List Movie</Button>
+                <Button color="inherit">Movie List</Button>
               </Link>
             
               <Link to={"/genres"} className={classes.link}>
-                <Button color="inherit">Movies Genre</Button>
+                <Button color="inherit">Movie Genres</Button>
               </Link>
             </div>
           )}

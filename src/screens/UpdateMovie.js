@@ -305,6 +305,7 @@ export default function UpdateMovie() {
                 id="duration"
                 label="Duration"
                 name="duration"
+                placeholder="Movie duration in minutes"
                 value={state.duration}
                 type="number"
                 autoComplete="Duration"
@@ -363,9 +364,9 @@ export default function UpdateMovie() {
                   label="Movie status"
                   name="status"
                 >
-                  <MenuItem value={1}>Not show</MenuItem>
-                  <MenuItem value={2}>Is showing</MenuItem>
-                  <MenuItem value={3}>Will show</MenuItem>
+                  <MenuItem value={1}>No longer showing</MenuItem>
+                  <MenuItem value={2}>Now showing</MenuItem>
+                  <MenuItem value={3}>Coming soon</MenuItem>
                 </Select>
               </FormControl>
 

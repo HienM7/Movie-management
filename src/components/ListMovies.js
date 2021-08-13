@@ -66,7 +66,7 @@ export default function SearchAppBar() {
               className={classes.buttonCreate}
               color="primary"
             >
-              Create Movie
+              Add Movie
             </Button>
           </Link>
           {/* <div className={classes.flex}>

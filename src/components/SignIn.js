@@ -91,7 +91,7 @@ export default function SignIn(props) {
             });
           } else {
             setAlertKind("error");
-            setAlert("User is not exits");
+            setAlert("User does not exist");
           }
         })
         .catch(error => {

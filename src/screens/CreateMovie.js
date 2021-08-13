@@ -263,6 +263,7 @@ export default function CreateMovie(props) {
                 label="Duration"
                 name="duration"
                 type="number"
+                placeholder="Movie duration in minutes"
                 value={state.duration}
                 autoComplete="Duration"
                 onChange={handleChange}
@@ -320,9 +321,9 @@ export default function CreateMovie(props) {
                   label="Movie status"
                   name="status"
                 >
-                  <MenuItem value={1}>Not show</MenuItem>
-                  <MenuItem value={2}>Is showing</MenuItem>
-                  <MenuItem value={3}>Will show</MenuItem>
+                  <MenuItem value={1}>No longer showing</MenuItem>
+                  <MenuItem value={2}>Now showing</MenuItem>
+                  <MenuItem value={3}>Coming soon</MenuItem>
                 </Select>
               </FormControl>
 

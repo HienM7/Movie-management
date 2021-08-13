@@ -207,7 +207,7 @@ export default class MovieScheduler extends React.PureComponent {
       currentDate: moment().toString(),
       movies: [],
       alertOpen: false,
-      alert: 'Unsuccessful, Please filled all informations before save',
+      alert: 'Unsuccessful, Please fill in all information before saving',
       isLoading: true,
       room: {},
       isShiftPressed: false,
@@ -335,7 +335,7 @@ export default class MovieScheduler extends React.PureComponent {
         if (check > 6 || check < 0) {
           this.setState({
             alertOpen: true, 
-            alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
+            alert: 'Unsuccessful, Please arrange the movie schedule within the next 7 days'
           });
           return;
         }
@@ -390,7 +390,7 @@ export default class MovieScheduler extends React.PureComponent {
             console.log(error);
           });
       } else {
-        this.setState({ alertOpen: true, alert: 'Unsuccessful, Please filled all informations before save' });
+        this.setState({ alertOpen: true, alert: 'Unsuccessful, Please fill in all information before saving' });
       }
     }
 
@@ -425,7 +425,7 @@ export default class MovieScheduler extends React.PureComponent {
         if (check > 6 || check < 0) {
           this.setState({
             alertOpen: true, 
-            alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
+            alert: 'Unsuccessful, Please arrange the movie schedule within the next 7 days'
           });
           return;
         }
@@ -521,7 +521,7 @@ export default class MovieScheduler extends React.PureComponent {
             if (check > 6 || check < 0) {
               this.setState({
                 alertOpen: true, 
-                alert: 'Unsuccessful, Please arrange the movie schedule within 7 days'
+                alert: 'Unsuccessful, Please arrange the movie schedule within the next 7 days'
               });
               return;
             }
@@ -706,7 +706,7 @@ export default class MovieScheduler extends React.PureComponent {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {"Something wrong!"}
+            {"Something went wrong!"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
