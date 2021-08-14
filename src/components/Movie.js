@@ -30,9 +30,9 @@ const useStyles = makeStyles({
 });
 
 const movie_status = [
-  {id: 1, name: "Not show"},
-  {id: 2, name: "Is showing"},
-  {id: 3, name: "Will show"},
+  {id: 1, name: "No longer showing"},
+  {id: 2, name: "Now showing"},
+  {id: 3, name: "Coming soon"},
 ];
 
 export default function Movie(props) {

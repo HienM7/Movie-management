@@ -38,7 +38,7 @@ function createData(genre_name, id) {
   return { genre_name, id };
 }
 
-const rows = [
+const rows = [  // ???
   createData("Frozen yoghurt", 1),
   createData("Ice cream sandwich", 2),
   createData("Eclair", 3),
@@ -188,7 +188,7 @@ export default function Genre() {
           <DialogTitle id="form-dialog-title">Create Genre</DialogTitle>
           <DialogContent style={{ width: 500 }}>
             <DialogContentText>
-              Type name genre name in order to create genre movie
+              Type genre name to create movie genre
             </DialogContentText>
             <TextField
               autoFocus
@@ -220,7 +220,7 @@ export default function Genre() {
           <DialogTitle id="form-dialog-title">Edit Genre</DialogTitle>
           <DialogContent style={{ width: 500 }}>
             <DialogContentText>
-              Type name genre name in order to edit genre movie
+              Type genre name to edit movie genre
             </DialogContentText>
             <TextField
               autoFocus
