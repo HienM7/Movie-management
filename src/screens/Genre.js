@@ -22,15 +22,23 @@ import Pagination from "@material-ui/lab/Pagination";
 
 const useStyles = makeStyles({
   paper: {
-    marginTop: 120,
+    marginTop: 12,
   },
   table: {
-    minWidth: 650,
+    // minWidth: 650,
+    // width:
   },
   pagination: {
     display: "flex",
     justifyContent: "center",
     margin: "50px auto",
+  },
+  buttonCreate: {
+    marginTop: 25,
+  },
+  root: {
+    // textAlign: "center",
+    width: 525,
   },
 });
 
@@ -38,7 +46,8 @@ function createData(genre_name, id) {
   return { genre_name, id };
 }
 
-const rows = [  // ???
+const rows = [
+  // ???
   createData("Frozen yoghurt", 1),
   createData("Ice cream sandwich", 2),
   createData("Eclair", 3),
@@ -133,34 +142,43 @@ export default function Genre() {
 
   return (
     <Container container className={classes.root}>
+      <Button
+        variant="contained"
+        onClick={handleCreateOpen}
+        className={classes.buttonCreate}
+        color="primary"
+      >
+        Create new genre
+      </Button>
       <TableContainer component={Paper} className={classes.paper}>
-        <Button
-          variant="contained"
-          onClick={handleCreateOpen}
-          className={classes.buttonCreate}
-          color="primary"
-        >
-          Create new genre
-        </Button>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="">Name</TableCell>
-              <TableCell align="right">Actions&nbsp;</TableCell>
+              <TableCell align="" style={{ paddingLeft: 40 }}>
+                Name
+              </TableCell>
+              <TableCell align="right" style={{ paddingRight: 40 }}>
+                Actions&nbsp;
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {allGenre.map((row, index) => (
               <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
+                <TableCell
+                  component="th"
+                  scope="row"
+                  style={{ paddingLeft: 40 }}
+                >
                   {row.genre_name}
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="right" style={{ paddingRight: 40 }}>
                   <Button
                     variant="contained"
                     onClick={() => handleEditOpen(row)}
                     className={classes.buttonCreate}
                     color="primary"
+                    style={{ paddingRight: 25, paddingLeft: 25 }}
                   >
                     Edit
                   </Button>

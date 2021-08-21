@@ -15,11 +15,11 @@ import Pagination from "@material-ui/lab/Pagination";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: 110,
+    marginTop: 25,
     position: "relative",
   },
   buttonCreate: {
-    marginBottom: 30,
+    marginBottom: 12,
   },
   flex: {
     display: "flex",

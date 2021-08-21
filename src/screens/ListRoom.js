@@ -18,7 +18,7 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: 110,
+    marginTop: 30,
     position: "relative",
   },
   buttonCreate: {
